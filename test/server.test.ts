@@ -36,6 +36,15 @@ test("seed data can't break out of its script tag", async () => {
   expect(page).not.toContain("</script><script>alert(1)");
 });
 
+test("share links use https behind a TLS-terminating proxy", async () => {
+  const res = await fetch(new URL("/api/share", server.url), {
+    method: "POST",
+    headers: { "X-Forwarded-Proto": "https" },
+    body: JSON.stringify({ json: "[1]" }),
+  });
+  expect(((await res.json()) as { url: string }).url).toStartWith("https://");
+});
+
 test("rejects invalid JSON and unknown ids", async () => {
   const bad = await fetch(new URL("/api/share", server.url), { method: "POST", body: JSON.stringify({ json: "{" }) });
   expect(bad.status).toBe(400);

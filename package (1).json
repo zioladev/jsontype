@@ -1,0 +1,16 @@
+{
+  "name": "jsontype",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "bun build.ts",
+    "dev": "bun build.ts --dev",
+    "start": "bun run build && bun server.ts",
+    "test": "bun run build && bun test",
+    "typecheck": "bun run build && tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5"
+  }
+}

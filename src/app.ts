@@ -10,6 +10,15 @@ function shareId(json: string): string {
   return new Bun.CryptoHasher("sha256").update(json).digest("base64url").slice(0, 10);
 }
 
+// Behind a TLS-terminating proxy (Render, Fly, …) the request arrives as
+// plain http, so trust the proxy's X-Forwarded-Proto for the link we hand out.
+function publicUrl(req: Request, path: string): string {
+  const url = new URL(path, req.url);
+  const proto = req.headers.get("x-forwarded-proto")?.split(",")[0]?.trim();
+  if (proto === "https" || proto === "http") url.protocol = `${proto}:`;
+  return url.href;
+}
+
 // The page with an optional share baked in, so a /s/:id link paints the saved
 // JSON and types on first load with no extra request.
 function page(seed: unknown, status = 200): Response {
@@ -56,7 +65,7 @@ export function routes(store: ShareStore) {
         // the JSON so the link shows exactly what was saved.
         const id = shareId(json);
         store.save({ id, json, types: infer(value).code });
-        return Response.json({ id, url: new URL(`/s/${id}`, req.url).href }, { status: 201 });
+        return Response.json({ id, url: publicUrl(req, `/s/${id}`) }, { status: 201 });
       },
     },
 

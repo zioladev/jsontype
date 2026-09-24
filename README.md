@@ -32,11 +32,3 @@ Inference rules:
 - Identical shapes share one interface.
 
 Share ids are a hash of the content, so the same JSON always gets the same link. A `/s/:id` page embeds the saved JSON and types in the HTML, so it renders on first paint with no extra fetch.
-
-## Deploy (Vercel)
-
-1. Create a Vercel project from this repo with **Root Directory** set to `jsontype`.
-2. `vercel.json` sets `"bunVersion": "1.x"`. With `bun.lock` and a root `server.ts`, Vercel's Bun preset sends every request to the `Bun.serve()` server.
-3. Add the domain `jsontype.ziola.dev`.
-
-Vercel's filesystem is ephemeral and every function instance has its own `/tmp`. On Vercel, shares live in `/tmp/jsontype.sqlite` and **don't persist** across cold starts or instances. That's fine for a live demo on a warm instance, but links won't last. For durable links, run it anywhere with a persistent disk (`JSONTYPE_DB=/data/jsontype.sqlite bun server.ts`).

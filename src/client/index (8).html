@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>jsontype — JSON → TypeScript, instantly</title>
+<meta name="description" content="Paste JSON, get TypeScript interfaces instantly. Save and share a link. Built entirely on Bun.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231b1a17'/%3E%3Ctext x='16' y='22' font-family='Menlo,monospace' font-size='15' font-weight='700' fill='%23e8b664' text-anchor='middle'%3E%7B%7D%3C/text%3E%3C/svg%3E">
+<style>/*css*/</style>
+</head>
+<body>
+<header class="bar">
+  <div class="brand">
+    <span class="mark" aria-hidden="true">{}</span>
+    <span class="name">jsontype</span>
+    <span class="tag">JSON → TypeScript, instantly</span>
+  </div>
+  <div class="actions">
+    <a id="link" class="link" hidden></a>
+    <button id="sample" class="btn ghost" type="button">Sample</button>
+    <button id="share" class="btn primary" type="button" disabled>Save &amp; share</button>
+  </div>
+</header>
+
+<main class="panes">
+  <section class="pane" aria-label="JSON input">
+    <div class="pane-head">
+      <span class="label">JSON</span>
+      <button id="clear" class="btn small ghost" type="button" hidden>Clear</button>
+    </div>
+    <textarea id="input" spellcheck="false" autocomplete="off" autocapitalize="off" autocorrect="off"
+      placeholder="Paste JSON here…"></textarea>
+    <button id="error" class="error" type="button" hidden></button>
+  </section>
+
+  <section class="pane" aria-label="Output">
+    <div class="pane-head">
+      <div class="tabs" role="tablist">
+        <button id="tab-types" role="tab" aria-selected="true" type="button">Types</button>
+        <button id="tab-tree" role="tab" aria-selected="false" type="button">Tree</button>
+      </div>
+      <button id="copy" class="btn small" type="button" disabled>Copy</button>
+    </div>
+    <div id="notice" class="notice" hidden></div>
+    <pre id="types" class="out" role="tabpanel" aria-labelledby="tab-types"><code></code></pre>
+    <div id="tree" class="out tree" role="tabpanel" aria-labelledby="tab-tree" hidden></div>
+    <p id="empty" class="empty">Types appear here as you paste.</p>
+  </section>
+</main>
+
+<footer class="foot">
+  <span class="bun">One tool: <b>Bun</b> runs the TypeScript server, serves it, bundles it, tests it, and stores shares in <b>bun:sqlite</b>.</span>
+  <span id="stats" class="stats"></span>
+</footer>
+<!--seed-->
+<script type="module">/*js*/</script>
+</body>
+</html>

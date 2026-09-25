@@ -24,11 +24,12 @@ bun run typecheck
 
 Inference rules:
 
-- Nested objects become named interfaces.
-- `null` next to a value gives `T | null`.
-- A key missing from some items in an array of objects becomes optional (`key?`).
-- `[]` becomes `unknown[]`.
-- Mixed primitive arrays become a union: `(string | number)[]`.
-- Identical shapes share one interface.
+* Nested objects become named interfaces.
+* `null` next to a value gives `T | null`.
+* A key missing from some items in an array of objects becomes optional (`key?`).
+* `[]` becomes `unknown[]`.
+* Mixed primitive arrays become a union: `(string | number)[]`.
+* Identical shapes share one interface.
+* Objects used as lookup tables become `Record<string, T>`. For example, npm's `packages` map in a 6,800-line `package-lock.json` becomes about 50 lines of types. An object counts as a lookup table when all of its values share one type and its keys look like data (paths, ids, dates or headers), vary from sample to sample, or map to many values of identical shape.
 
 Share ids are a hash of the content, so the same JSON always gets the same link. A `/s/:id` page embeds the saved JSON and types in the HTML, so it renders on first paint with no extra fetch.
